@@ -12,6 +12,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData=MediaQuery.of(context);
     // Color color=Color(#08846c);
-    return Placeholder();
+    return Center(child: Text("Home"),);
   }
 }
