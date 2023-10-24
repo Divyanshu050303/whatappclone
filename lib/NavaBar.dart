@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:whatappclone/screen/Calls.dart';
+import 'package:whatappclone/screen/Groups.dart';
+import 'package:whatappclone/screen/HomePage.dart';
+import 'package:whatappclone/screen/Updates.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -15,10 +19,11 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 4, vsync: this);
     tabController.addListener(() {
       setState(() {
         selectedIndex = tabController.index;
+        print(selectedIndex);
       });
     });
   }
@@ -103,29 +108,47 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
                           length: 4,
                           child: Scaffold(
                             bottomNavigationBar: Container(
-                              height: mediaQueryData.size.height * 0.085,
+                              height: mediaQueryData.size.height * 0.2,
                               width: mediaQueryData.size.width,
                               color: const Color.fromARGB(500, 5, 130, 107),
-                              child:   const TabBar(
-                                tabs: [
+                              child:     TabBar(
+                                controller: tabController,
+                                indicatorColor: Colors.white,
+                                 labelPadding: const EdgeInsets.symmetric(),
+                                tabs:   [
                                   Tab(
                                       icon: Icon(
                                     Icons.group,
+                                        color: selectedIndex==0?Colors.white:Colors.grey,
+                                        size: 25,
                                   )),
                                   Tab(
-                                   child: Text("Home", style: TextStyle(color: Colors.white, fontSize: 20),),
+                                   child: Text("Home", style: TextStyle(color: selectedIndex==1?Colors.white:Colors.grey, fontSize: 18),),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 8.0),
-                                    child: Tab( child: Text("Updates", style: TextStyle(color: Colors.white, fontSize: 20),),),
-                                  ),
+                                  Tab( child: Text("Updates", style: TextStyle(color: selectedIndex==2?Colors.white:Colors.grey, fontSize: 18),),),
                                   Tab(
-                                    child: Text("Calls", style: TextStyle(color: Colors.white, fontSize: 20),),
+                                    child: Text("Calls", style: TextStyle(color: selectedIndex==3?Colors.white:Colors.grey, fontSize: 18),),
                                   ),
                                 ],
                               ),
                             ),
-                          )),
+                       body: Padding(
+                         padding:   EdgeInsets.only(top: mediaQueryData.size.height*0.2),
+                         child: SizedBox(
+                           height: mediaQueryData.size.height*0.8,
+                           width: mediaQueryData.size.width,
+                           child: TabBarView(
+                             controller: tabController,
+                             children: const [
+                               Groups(),
+                               HomePage(),
+                               Updates(),
+                               Calls()
+                             ],
+                           ),
+                         ),
+                       ),   )
+                      ),
                     ),
                   )
                 ],
