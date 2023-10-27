@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatappclone/screen/Calls.dart';
 import 'package:whatappclone/screen/Groups.dart';
 import 'package:whatappclone/screen/HomePage.dart';
+import 'package:whatappclone/screen/Profile.dart';
 import 'package:whatappclone/screen/Updates.dart';
 
 class NavBar extends StatefulWidget {
@@ -13,7 +14,7 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
   late TabController tabController;
-  int selectedIndex = 0;
+  int selectedIndex = 1;
 
   @override
   void initState() {
@@ -78,22 +79,22 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
                         SizedBox(
                           width: mediaQueryData.size.width * 0.05,
                         ),
-                        const Icon(
+                         selectedIndex!=0? Icon(
                           Icons.search_outlined,
                           color: Colors.white,
-                          size: 27,
-                        ),
+                          size: 25,
+                        ):Text(""),
                         SizedBox(
                           width: mediaQueryData.size.width * 0.04,
                         ),
-                        CircleAvatar(
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+                          },
+                        child:CircleAvatar(
                           backgroundColor: Colors.grey.shade400,
-                          child: const Icon(
-                            Icons.person_2_outlined,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        )
+                          child:ClipRRect(borderRadius:BorderRadius.circular(20),child: Image.asset("assets/naruto.jpg", height: 80,fit: BoxFit.fitHeight,))
+                        )),
                       ],
                     ),
                   ),
@@ -112,13 +113,14 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
                               width: mediaQueryData.size.width,
                               color: const Color.fromARGB(500, 5, 130, 107),
                               child:     TabBar(
+                                indicatorSize: TabBarIndicatorSize.label,
                                 controller: tabController,
                                 indicatorColor: Colors.white,
                                  labelPadding: const EdgeInsets.symmetric(),
                                 tabs:   [
                                   Tab(
                                       icon: Icon(
-                                    Icons.group,
+                                    Icons.groups,
                                         color: selectedIndex==0?Colors.white:Colors.grey,
                                         size: 25,
                                   )),
@@ -132,27 +134,24 @@ class _NavBarState extends State<NavBar> with TickerProviderStateMixin {
                                 ],
                               ),
                             ),
-                       body: Padding(
-                         padding:   EdgeInsets.only(top: mediaQueryData.size.height*0.2),
-                         child: SizedBox(
-                           height: mediaQueryData.size.height*0.8,
-                           width: mediaQueryData.size.width,
-                           child: TabBarView(
-                             controller: tabController,
-                             children: const [
-                               Groups(),
-                               HomePage(),
-                               Updates(),
-                               Calls()
-                             ],
-                           ),
-                         ),
-                       ),   )
-                      ),
+                          )),
                     ),
                   )
                 ],
               ),
+            ),
+          ),
+          SizedBox(
+            width: mediaQueryData.size.width,
+            height: mediaQueryData.size.height*0.8,
+            child: TabBarView(
+              controller: tabController,
+              children: const [
+                Groups(),
+                HomePage(),
+                Updates(),
+                Calls()
+              ],
             ),
           )
         ],
